@@ -45,7 +45,12 @@ class Profiler
 		{
 			var time = (module.duration / module.iterations) * 1000;
 			time = Std.int(time * 100) / 100;
-			trace('>>Module ${module.name} : $time ms');
+
+			var stringLeft = '###### Module \'${module.name}\'';
+			var spaces = 25 - stringLeft.length;
+			for(i in 0...spaces) stringLeft += ' ';
+
+			trace(stringLeft + ' : $time ms');
 		}
 
 		lastDump = haxe.Timer.stamp();
