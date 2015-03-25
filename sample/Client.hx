@@ -17,9 +17,11 @@ class Client
 			Profiler.start("test");
 			Sys.sleep(Math.random());
 			Profiler.stop("test");
+
 			Profiler.start("test2");
 			Sys.sleep(Math.random() / 2);
 			Profiler.stop("test2");
+			
 			Profiler.dumpWeb();
 		}
 	}

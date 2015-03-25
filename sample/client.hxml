@@ -1,0 +1,4 @@
+-main Client.hx
+-neko client.n
+-lib miniprofiler
+-debug
