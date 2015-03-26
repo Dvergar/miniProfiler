@@ -60,21 +60,22 @@ class Profiler
 	{
 		if(haxe.Timer.stamp() - lastDump < dumpRate) return;
 
-		var stats = new Map<String, Float>();
+		var stats = new Array<{name:String, value:Float}>();
 
 		for(module in modules)
 		{
 			var time = (module.duration / module.iterations) * 1000;
 			time = Std.int(time * 100) / 100;
-			stats.set(module.name, time);
+			stats.push({name: module.name, value: time});
 		}
 
 		lastDump = haxe.Timer.stamp();
 
 		// SEND
 		var http = new haxe.Http("http://localhost:2000/server.n");
-		// http.setPostData(haxe.Json.stringify(stats));
-		http.setPostData(haxe.Serializer.run(stats));
+		http.setPostData(haxe.Json.stringify(stats));
+		trace("WAT : " + haxe.Json.stringify(stats));
+		// http.setPostData(haxe.Serializer.run(stats));
 		http.request(true);
 	}
 

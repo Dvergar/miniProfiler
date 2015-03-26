@@ -32,30 +32,51 @@ class Server
         // trace(caca);
         // trace("wat");
         var postData = neko.Web.getPostData();
+        var getData = neko.Web.getParamsString();
 
-        // BROWSER ACCESS
-        if(postData == null)
+
+
+        // AJAX JSON ACCESS
+        if(getData == "json")
         {
-        	neko.Lib.print("<meta http-equiv='refresh' content='1'>");
-        	// var stats:Map<String, Float> = haxe.Json.parse(sys.io.File.getContent("dump.json"));
-        	var stats:Map<String, Float> = haxe.Unserializer.run(sys.io.File.getContent("dump.hxdump"));
+            // var json:Map<String, Float> = haxe.Json.parse(sys.io.File.getContent("dump.json"));
+            neko.Lib.print(sys.io.File.getContent("dump.json"));
+        }
+        // BROWSER ACCESS
+        else if(postData == null)
+        {
+            // neko.Lib.print("<meta http-equiv='refresh' content='1'>");
+
+
+
+        	// var stats:Map<String, Float> = haxe.Unserializer.run(sys.io.File.getContent("dump.hxdump"));
         	// trace(stats);
-        	for(module in stats.keys())
-        	{
-        		var time = stats.get(module);
-        		var nbbar = Std.int(time / 20 ) ;
 
-        		var output = '<div width="100">$module ($time ms)</div> > ';
-        		for(i in 0...nbbar) output += "&block;";
 
-        		neko.Lib.print(output + "<br/>");
-        	}
-        	// neko.Lib.print(json);
+
+
+        	// for(module in stats.keys())
+        	// {
+        	// 	var time = stats.get(module);
+        	// 	var nbbar = Std.int(time / 20 ) ;
+
+        	// 	var output = '<div width="100">$module ($time ms)</div> > ';
+        	// 	for(i in 0...nbbar) output += "&block;";
+
+        	// 	neko.Lib.print(output + "<br/>");
+        	// }
+
+
+
+
+
+        	neko.Lib.print(sys.io.File.getContent("chart_test.html"));
         }
         else
         // PROFILER ACCESS
         {
-			sys.io.File.saveContent("dump.hxdump", neko.Web.getPostData());
+            // sys.io.File.saveContent("dump.hxdump", neko.Web.getPostData());
+			sys.io.File.saveContent("dump.json", neko.Web.getPostData());
         }
     } 
 }
