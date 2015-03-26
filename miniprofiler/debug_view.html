@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+
+        "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>::debugname::</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+    <style>
+        html
+        {
+            font-family: 'Oswald', sans-serif;
+            background-color: #253346;
+        }
+
+        rect
+        {
+            -webkit-filter: drop-shadow( 3px 3px 2px rgba(0,0,0,.7) );
+                    filter: drop-shadow( 3px 3px 2px rgba(0,0,0,.7) );
+            
+        }
+    </style>
+
+    <script type='text/javascript' src='http://d3js.org/d3.v3.min.js'></script>
+    <script type='text/javascript'>
+        window.onload = function()
+        {
+            setInterval(function () {
+                d3.json("http://localhost:2000/debugger.n?json=::debugname::", function(error, json) {
+                    // if (error) return console.warn(error);
+                    console.log(json);
+                    dataset = json;
+                    update(json);
+                });
+            }, 1000);
+            
+
+            var width = 500;
+            var height = 200;
+            var barHeight = 35;
+
+            var svg = d3.select("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+            var graphx = 100;
+
+            function update(dataset)
+            {
+                console.log("update");
+                console.log(dataset);
+
+                var rects = svg.selectAll("rect")
+                    .data(dataset);
+
+                rects.attr("x", graphx)
+                    .attr("y", function(d, i) {
+                        return i * barHeight;
+                    })
+                    .attr("width", function(d) {
+                        console.log(d);
+                        return d.value;
+                    })
+                    .attr("height", barHeight - 7)
+                    .attr("fill", "#198a53")
+                    .style("filter", "url(#dropshadow)");
+
+                rects.exit().remove();
+                    
+                rects.enter()
+                    .append("rect")
+
+                var texts = svg.selectAll("text")
+                    .data(dataset)
+
+                texts.enter()
+                    .append("text");
+
+                // TEXT DATA
+                texts.text(function(d) {
+                        return d.value + " ms (iter: " + d.iterations + ")";
+                    })
+                    .attr("x", graphx + 10)
+                    .attr("y", function(d, i) {
+                        return i * barHeight + 22;
+                    })
+                    // .attr("font-family", "Oswald")
+                    .attr("font-size", "18px")
+                    .attr("fill", "white");
+
+                // TITLE
+                texts.enter()
+                    .append("text")
+                    .text(function(d) {
+                        return d.name;
+                    })
+                    .attr("x", 0)
+                    .attr("y", function(d, i) {
+                        return i * barHeight + 22;
+                    })
+                    // .attr("font-family", "Oswald")
+                    .attr("font-size", "18px")
+                    .attr("fill", "#bdbebd");
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <h1 style="color:white">::debugname::</h1>
+    <svg>
+        <filter id="dropshadow" height="130%">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="1"/> <!-- stdDeviation is how much to blur -->
+          <feOffset dx="2" dy="2" result="offsetblur"/> <!-- how much to offset -->
+          <feMerge> 
+            <feMergeNode/> <!-- this contains the offset blurred image -->
+            <feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->
+          </feMerge>
+        </filter>
+    </svg>
+</body>
+
+</html>
+
+

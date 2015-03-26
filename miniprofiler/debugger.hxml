@@ -1,0 +1,5 @@
+-main Debugger.hx
+-neko debugger.n
+-debug
+
+-cmd nekotools server -p 2000 -h localhost -d .
