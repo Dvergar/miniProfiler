@@ -1,26 +1,25 @@
-import miniprofiler.Profiler;
-import haxe.macro.Expr;
+import miniprofiler.Debugger;
 
 
 class Client
 {
 	static function main()
 	{
-		new Profiler("mydebugger");
+		var myDebugger = new Debugger("mydebugger");
 
 		while(true)
 		{
-			Profiler.get("mydebugger").start("test");
+			myDebugger.start("test");
 			Sys.sleep(Math.random());
-			Profiler.get("mydebugger").stop("test");
+			myDebugger.stop("test");
 
-			Profiler.get("mydebugger").start("test2");
+			trace("Hello World " + Std.string(Std.random(100)));
+
+			myDebugger.start("test2");
 			Sys.sleep(Math.random() / 2);
-			Profiler.get("mydebugger").stop("test2");
+			myDebugger.stop("test2");
 			
-			Profiler.get("mydebugger").dumpWeb();
+			myDebugger.dumpWeb();
 		}
 	}
-
-
 }

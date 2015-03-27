@@ -1,4 +1,4 @@
--main Debugger.hx
+-main DebugServer.hx
 -neko debugger.n
 -debug
 

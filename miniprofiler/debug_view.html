@@ -22,18 +22,69 @@
                     filter: drop-shadow( 3px 3px 2px rgba(0,0,0,.7) );
             
         }
+
+        #tracebox
+        {
+            padding:6px;
+            overflow-y:scroll;
+            height:100px;
+            border-top:4px solid #198a53;
+            color:#bdbebd;
+        }
+
+        #tracebox p
+        {
+            overflow-y: auto;
+            margin:0;
+            font-size:12px;
+        }
+
+        ::-webkit-scrollbar
+        {
+          width: 12px;  /* for vertical scrollbars */
+          height: 12px; /* for horizontal scrollbars */
+        }
+
+        ::-webkit-scrollbar-track
+        {
+          background: rgba(0, 0, 0, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb
+        {
+          background: rgba(0, 0, 0, 0.3);
+        }
     </style>
 
     <script type='text/javascript' src='http://d3js.org/d3.v3.min.js'></script>
-    <script type='text/javascript'>
+ 
+</head>
+
+<body>
+    <h1 style="color:white">::debugname::</h1>
+    <svg>
+        <filter id="dropshadow" height="130%">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="1"/> <!-- stdDeviation is how much to blur -->
+          <feOffset dx="2" dy="2" result="offsetblur"/> <!-- how much to offset -->
+          <feMerge> 
+            <feMergeNode/> <!-- this contains the offset blurred image -->
+            <feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->
+          </feMerge>
+        </filter>
+    </svg>
+
+    <div id="tracebox"></div>
+
+
+   <script type='text/javascript'>
         window.onload = function()
         {
             setInterval(function () {
                 d3.json("http://localhost:2000/debugger.n?json=::debugname::", function(error, json) {
                     // if (error) return console.warn(error);
                     console.log(json);
-                    dataset = json;
-                    update(json);
+                    dataset = json.datas;
+                    update(json.datas, json.traces);
                 });
             }, 1000);
             
@@ -43,20 +94,32 @@
             var barHeight = 35;
 
             var svg = d3.select("svg")
-                .attr("width", width)
-                .attr("height", height);
+                .attr("width", width);
+                // .attr("height", height);
 
             var graphx = 100;
 
-            function update(dataset)
+            function update(dataset, traces)
             {
                 console.log("update");
-                console.log(dataset);
+                console.log(traces);
+
+                var tracebox = d3.select("#tracebox")
+                for(var i in traces)
+                {
+                    tracebox.append('p')
+                        .text(traces[i]);
+                }
+
+                var objDiv = document.getElementById("tracebox");
+                objDiv.scrollTop = objDiv.scrollHeight;
+
 
                 var rects = svg.selectAll("rect")
                     .data(dataset);
 
                 rects.attr("x", graphx)
+                    .transition()
                     .attr("y", function(d, i) {
                         return i * barHeight;
                     })
@@ -66,12 +129,12 @@
                     })
                     .attr("height", barHeight - 7)
                     .attr("fill", "#198a53")
-                    .style("filter", "url(#dropshadow)");
 
                 rects.exit().remove();
                     
                 rects.enter()
                     .append("rect")
+                    .style("filter", "url(#dropshadow)");
 
                 var texts = svg.selectAll("text")
                     .data(dataset)
@@ -107,20 +170,11 @@
             }
         }
     </script>
-</head>
 
-<body>
-    <h1 style="color:white">::debugname::</h1>
-    <svg>
-        <filter id="dropshadow" height="130%">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="1"/> <!-- stdDeviation is how much to blur -->
-          <feOffset dx="2" dy="2" result="offsetblur"/> <!-- how much to offset -->
-          <feMerge> 
-            <feMergeNode/> <!-- this contains the offset blurred image -->
-            <feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->
-          </feMerge>
-        </filter>
-    </svg>
+
+
+
+
 </body>
 
 </html>
