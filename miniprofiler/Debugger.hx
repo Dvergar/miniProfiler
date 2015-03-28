@@ -38,7 +38,8 @@ class Debugger
 	}
 
 
-    private static function myTrace( v : Dynamic, ?inf : haxe.PosInfos ) {
+    private static function myTrace(v:Dynamic, ?inf:haxe.PosInfos)
+    {
     	haxeTrace(v, inf);
         traces.push(inf.fileName + ":" + inf.lineNumber + ": " + Std.string(v));
     }
@@ -49,15 +50,14 @@ class Debugger
 		try
 		{
 			haxe.Http.requestUrl("http://localhost:2000/debugger.n");
-			serverRunning = true;
 			trace("Server is already running");
 		}
 		catch(e:Dynamic)
 		{
-			serverRunning = false;
 			trace("Server isn't running");
 			trace("Starting server:");
-			new sys.io.Process("nekotools", ["server", "-p", "2000", "-h", "localhost", "-d", "."]);
+			var nekoFilePath = haxe.io.Path.directory(haxe.macro.Context.resolvePath('miniprofiler/Debugger.hx'));
+			new sys.io.Process("nekotools", ["server", "-p", "2000", "-h", "localhost", "-d", nekoFilePath]);
 			trace("Open http://localhost:2000/debugger.n in your browser");
 		}
 		return macro "dummy";

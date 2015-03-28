@@ -1,5 +1,6 @@
 -main DebugServer.hx
 -neko debugger.n
+-resource debug_view.html@debugview
 -debug
 
 -cmd nekotools server -p 2000 -h localhost -d .

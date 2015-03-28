@@ -26,7 +26,8 @@ class DebugServer
         else if(getData != null)
         {
             // trace("Browser access");
-            var template = new haxe.Template(sys.io.File.getContent("debug_view.html"));
+            // var template = new haxe.Template(sys.io.File.getContent("debug_view.html"));
+            var template = new haxe.Template(haxe.Resource.getString("debugview"));
             var output = template.execute({ debugname : getData});
             neko.Lib.print(output);
         }
