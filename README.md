@@ -4,8 +4,9 @@ Simple haxe profiler.
 ## Usage
 
 ```haxe
-Profiler.start("banana");
+var profiler = new Debugger();
+profiler.start("banana");
 // Some code
-Profiler.stop("banana");
-Profiler.dump();
+profiler.stop("banana");
+profiler.dump();
 ```
