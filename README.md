@@ -11,6 +11,6 @@ profiler.stop("banana");
 profiler.dump();
 ```
 
-`profiler.dumpWeb()` if you want to have a browser view at `localhost:2000/debugger.n?mydebugger`
+`profiler.dumpWeb()` if you want to have a browser view at `http://localhost:2000/debugger.n?mydebugger`
 
 _Note: You can also get the profiler `Debugger` instance via `Debugger.get("mydebugger")`_
