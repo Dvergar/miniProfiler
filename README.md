@@ -1,5 +1,5 @@
 # miniProfiler
-Simple haxe profiler.
+Simple haxe debugger.
 
 ## Usage
 
