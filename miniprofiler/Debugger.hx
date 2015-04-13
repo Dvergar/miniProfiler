@@ -104,7 +104,6 @@ class Debugger
 		lastDump = haxe.Timer.stamp();
 	}
 
-
 	public function dumpWeb(?dumpRate:Float=0)
 	{
 		if(haxe.Timer.stamp() - lastDump < dumpRate) return;

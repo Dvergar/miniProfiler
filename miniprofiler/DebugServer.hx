@@ -6,6 +6,7 @@ class DebugServer
         var postData = neko.Web.getPostData();
         var getData = neko.Web.getParamsString();
         var getDatas = neko.Web.getParams();
+        neko.Web.setHeader('Access-Control-Allow-Origin', '*');
         // trace(neko.Web.getParams());
         // trace("postdata " + getData);
 
