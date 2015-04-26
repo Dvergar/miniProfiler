@@ -19,3 +19,4 @@ _Note: You can also get the profiler `Debugger` instance via `Debugger.get("myde
 
 * Real-time states views
 * Dump of arbitrary data on disk (e.g. game map)
+* Server ip API to make it work on both local & remote (android, ios...)
